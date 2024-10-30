@@ -1,30 +1,21 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home.tsx";
 import Routing from "./pages/Routing.tsx";
 import GaiaxAssets from "./pages/GaiaxAssets.tsx";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: Home(),
-  },
-  {
-    path: "/routing",
-    element: Routing(),
-  },
-  {
-    path: "/assets",
-    element: GaiaxAssets(),
-  }
-])
+import NavBar from "./NavBar.tsx";
 
 
 function App() {
 
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={Home()} />
+        <Route path="/routing" element={Routing()} />
+        <Route path="/gaiax" element={GaiaxAssets()} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
