@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        gaiaPurple: '#B908FF',
+        tuGreen: '#7AC142',
+      },
+    }
   },
   plugins: [],
 }
