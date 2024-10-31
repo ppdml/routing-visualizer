@@ -7,16 +7,18 @@ import NavBar from "./NavBar.tsx";
 
 function App() {
 
-  return (
-    <BrowserRouter>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={Home()} />
-        <Route path="/routing" element={Routing()} />
-        <Route path="/gaiax" element={GaiaxAssets()} />
-      </Routes>
-    </BrowserRouter>
-  )
+    return (
+        <BrowserRouter>
+            <NavBar/>
+            <div className="m-10">
+                <Routes>
+                    <Route path="/" element={Home()}/>
+                    <Route path="/routing" element={Routing()}/>
+                    <Route path="/gaiax" element={GaiaxAssets()}/>
+                </Routes>
+            </div>
+        </BrowserRouter>
+    )
 }
 
 export default App

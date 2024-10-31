@@ -9,7 +9,7 @@ function NavBar() {
 
     return (
         <nav
-            className="bg-slate-100 flex-nowrap relative flex w-full items-center justify-between py-2 lg:flex-wrap lg:py-4 space-x-20">
+            className="bg-slate-100 flex-nowrap relative flex w-full items-center justify-between py-2 lg:flex-wrap lg:py-4 space-x-20 shadow shadow-xl">
             <div className="grow-0 pl-2">
                 <img src={tuLogo} alt="TU Logo" className="h-8"/>
             </div>
@@ -17,6 +17,7 @@ function NavBar() {
                 <NavLink to="/" className={({isActive}) => (isActive ? activeNav : inactiveNav)}>Home</NavLink>
                 <NavLink to="/routing" className={({isActive}) => (isActive ? activeNav : inactiveNav)}>Routing</NavLink>
                 <NavLink to="/gaiax" className={({isActive}) => (isActive ? activeNav : inactiveNav)}>Gaiax</NavLink>
+                <a className={inactiveNav} href="https://federated-catalog-viewer.gaiax4roms.hotsprings.io/nodes/2">Federated Catalog</a>
             </div>
             <div className="grow-0 pr-2">
                 <img src={romsLogo} alt="TU Logo" className="h-8"/>
