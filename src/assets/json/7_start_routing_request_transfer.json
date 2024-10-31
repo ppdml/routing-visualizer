@@ -1,0 +1,17 @@
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "TransferRequestDto",
+  "connectorId": "dfki",
+  "counterPartyAddress": "http://92.205.232.79:19194/protocol",
+  "contractId": "987b6d78-cd89-4383-b952-2025d65edff5",
+  "assetId": "dfki-routing-request-asset",
+  "protocol": "dataspace-protocol-http",
+  "transferType": "KafkaBroker-PUSH",
+  "dataDestination": {
+    "type": "Kafka",
+    "kafka.bootstrap.servers": "kafka.gaiax.cluster.tsachweh.de:30092",
+    "topic": "tu-routing-request"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@id": "tu-routing-response-asset",
+  "properties": {
+    "name": "tu-routing-response-asset",
+    "description": "asset for providing a routing response with kafka",
+    "contenttype": "application/json",
+    "serviceOfferingName": "tu-kafka-routing-response-service",
+    "serviceOfferingDescription": "service for providing routing response with kafka",
+    "endPoint": "https://tu-connector.gaiax.cluster.tsachweh.de",
+    "protocol": "DSP",
+    "port": 443,
+    "host": "tu-connector.gaiax.cluster.tsachweh.de",
+    "version": "1.0"
+  },
+  "dataAddress": {
+    "type": "Kafka",
+    "kafka.bootstrap.servers": "kafka-service.gaiax.svc.cluster.local:9092",
+    "topic": "tu-routing-response"
+  }
+}

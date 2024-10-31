@@ -1,0 +1,15 @@
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "ContractRequest",
+  "counterPartyAddress": "https://tu-connector.gaiax.cluster.tsachweh.de/protocol",
+  "protocol": "dataspace-protocol-http",
+  "policy": {
+    "@context": "http://www.w3.org/ns/odrl.jsonld",
+    "@id": "dHUtcm91dGluZy1yZXNwb25zZS1jb250cmFjdA==:dHUtcm91dGluZy1yZXNwb25zZS1hc3NldA==:ODRlZTI5ZjItOTYwYi00NTNlLWFmZjMtZDdjMTRiNDMyZGRm",
+    "@type": "Offer",
+    "assigner": "tu-dortmund",
+    "target": "tu-routing-response-asset"
+  }
+}

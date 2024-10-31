@@ -1,0 +1,9 @@
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "DatasetRequest",
+  "@id": "dfki-routing-request-asset",
+  "counterPartyAddress": "http://92.205.232.79:19194/protocol",
+  "protocol": "dataspace-protocol-http"
+}

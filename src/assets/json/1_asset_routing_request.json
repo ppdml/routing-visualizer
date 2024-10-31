@@ -1,0 +1,23 @@
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@id": "dfki-routing-request-asset",
+  "properties": {
+    "name": "dfki-routing-request-asset",
+    "description": "asset for providing a routing request with kafka",
+    "contenttype": "application/json",
+    "serviceOfferingName": "dfki-kafka-routing-request-service",
+    "serviceOfferingDescription": "service for providing routing requests with kafka",
+    "endPoint": "http://92.205.232.79",
+    "protocol": "DSP",
+    "port": 19291,
+    "host": "92.205.232.79",
+    "version": "1.0"
+  },
+  "dataAddress": {
+    "type": "Kafka",
+    "kafka.bootstrap.servers": "kafka:9092",
+    "topic": "routing-request"
+  }
+}

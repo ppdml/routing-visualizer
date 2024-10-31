@@ -1,0 +1,9 @@
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "DatasetRequest",
+  "@id": "kafka-stream-asset",
+  "counterPartyAddress": "https://edc.dev-datineo.de/protocol",
+  "protocol": "dataspace-protocol-http"
+}

@@ -1,0 +1,15 @@
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "ContractRequest",
+  "counterPartyAddress": "http://92.205.232.79:19194/protocol",
+  "protocol": "dataspace-protocol-http",
+  "policy": {
+    "@context": "http://www.w3.org/ns/odrl.jsonld",
+    "@id": "ZGZraS1yb3V0aW5nLXJlcXVlc3QtY29udHJhY3Q=:ZGZraS1yb3V0aW5nLXJlcXVlc3QtYXNzZXQ=:YTJlZDQ5ODQtNTdiOS00ZGI2LTlhNmUtNDhlMTdlYzM2N2Ez",
+    "@type": "Offer",
+    "assigner": "dfki",
+    "target": "dfki-routing-request-asset"
+  }
+}

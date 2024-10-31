@@ -1,0 +1,17 @@
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "TransferRequestDto",
+  "connectorId": "tu-dortmund",
+  "counterPartyAddress": "https://tu-connector.gaiax.cluster.tsachweh.de/protocol",
+  "contractId": "df16b738-0432-4f4c-8c02-c9abadfe2835",
+  "assetId": "tu-routing-response-asset",
+  "protocol": "dataspace-protocol-http",
+  "transferType": "Kafka-PUSH",
+  "dataDestination": {
+    "type": "Kafka",
+    "kafka.bootstrap.servers": "92.205.232.79:29092",
+    "topic": "routing-response"
+  }
+}
