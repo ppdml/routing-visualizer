@@ -1,10 +1,11 @@
 import {useState} from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCircleCheck} from '@fortawesome/free-solid-svg-icons';
 import asset from '../assets/json/1_asset_routing_request.json';
 import policy from '../assets/json/2_policy_definition.json';
 import contractDefinition from '../assets/json/3_routing_request_contract_definition.json';
 import JsonView from "@uiw/react-json-view";
+import GaiaxRoutingImage from "../components/GaiaxRoutingImage.tsx";
 
 function GaiaxAssets() {
     const [currentTab, setTab] = useState(0);
@@ -18,9 +19,7 @@ function GaiaxAssets() {
 
     return (
         <div className="content-center justify-center">
-            <div className="w-full flex content-center justify-center">
-                <h1> test</h1>
-            </div>
+            <GaiaxRoutingImage/>
 
             <ol className="flex items-center w-full text-sm font-medium text-center mb-4">
                 <li className={(currentTab == 0 ? stateLine + tabActive : stateLine + tabInactive)}>
