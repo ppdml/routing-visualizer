@@ -3,6 +3,7 @@ import {
     applyEdgeChanges,
     applyNodeChanges,
     Background,
+    BackgroundVariant,
     Controls,
     type Edge,
     MarkerType,
@@ -18,9 +19,9 @@ import {
 } from "@xyflow/react";
 import {useCallback} from "react";
 import '@xyflow/react/dist/style.css';
-import EdcNode from "./nodes/EdcNode.tsx";
-import ServiceNode from "./nodes/ServiceNode.tsx";
-import KafkaNode from "./nodes/KafkaNode.tsx";
+import EdcNode from "../components/nodes/EdcNode.tsx";
+import ServiceNode from "../components/nodes/ServiceNode.tsx";
+import KafkaNode from "../components/nodes/KafkaNode.tsx";
 
 const initialNodes: Node[] = [
     {
@@ -268,11 +269,11 @@ const dataFlowEdges: Edge[] = [
         source: 'tu-kafka',
         sourceHandle: 'sourceBottom',
         target: 'dfki-iwt',
-        targetHandle: 'targetRight',
+        targetHandle: 'targetTop',
         animated: true,
         markerEnd: markerEnd,
         style: edgeStyle,
-        pathOptions: {curvature: 1}
+        pathOptions: {curvature: 0.7}
     },
 ];
 
@@ -369,8 +370,18 @@ function GaiaxRoutingImage() {
     );
 
     return (
-        <>
-            <div className="w-full h-[36rem]">
+        <div className="w-full h-full">
+            <div className="w-full flex content-center justify-center space-x-4 m-4">
+                <button
+                    className="font-medium bg-gaiaPurple hover:bg-tuGreen text-white py-2 px-4 rounded transition duration-200 hover:ease-in-out motion-reduce:transition-none"
+                    onClick={() => setEdges(assetCreationEdges)}>Data Space Contracting
+                </button>
+                <button
+                    className="font-medium bg-gaiaPurple hover:bg-tuGreen text-white py-2 px-4 rounded transition duration-200 hover:ease-in-out motion-reduce:transition-none"
+                    onClick={() => setEdges(dataFlowEdges)}>Data Flow (After Contract)
+                </button>
+            </div>
+            <div className="h-[calc(100vh-15rem)] w-full overflow-auto">
                 <ReactFlow
                     nodes={nodes}
                     edges={edges}
@@ -394,20 +405,10 @@ function GaiaxRoutingImage() {
                 >
                     <MiniMap/>
                     <Controls showInteractive={false}/>
-                    <Background/>
+                    <Background variant={BackgroundVariant.Dots}/>
                 </ReactFlow>
             </div>
-            <div className="w-full flex content-center justify-center space-x-4">
-                <button
-                    className="font-medium bg-gaiaPurple hover:bg-tuGreen text-white py-2 px-4 rounded transition duration-200 hover:ease-in-out motion-reduce:transition-none"
-                    onClick={() => setEdges(assetCreationEdges)}>Data Space Contracting
-                </button>
-                <button
-                    className="font-medium bg-gaiaPurple hover:bg-tuGreen text-white py-2 px-4 rounded transition duration-200 hover:ease-in-out motion-reduce:transition-none"
-                    onClick={() => setEdges(dataFlowEdges)}>Data Flow (After Contract)
-                </button>
-            </div>
-        </>
+        </div>
     );
 }
 

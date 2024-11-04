@@ -5,9 +5,8 @@ import asset from '../assets/json/1_asset_routing_request.json';
 import policy from '../assets/json/2_policy_definition.json';
 import contractDefinition from '../assets/json/3_routing_request_contract_definition.json';
 import JsonView from "@uiw/react-json-view";
-import GaiaxRoutingImage from "../components/GaiaxRoutingImage.tsx";
 
-function GaiaxAssets() {
+function GaiaxAssetsRoutingRequest() {
     const [currentTab, setTab] = useState(0);
 
     const checkIcon = <FontAwesomeIcon icon={faCircleCheck} className="w-3.5 h-3.5 mr-2"/>
@@ -19,8 +18,6 @@ function GaiaxAssets() {
 
     return (
         <div className="content-center justify-center">
-            <GaiaxRoutingImage/>
-
             <ol className="flex items-center w-full text-sm font-medium text-center mb-4">
                 <li className={(currentTab == 0 ? stateLine + tabActive : stateLine + tabInactive)}>
                     <span
@@ -67,4 +64,4 @@ function GaiaxAssets() {
 }
 
 
-export default GaiaxAssets;
+export default GaiaxAssetsRoutingRequest;
