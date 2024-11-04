@@ -1,15 +1,15 @@
 import {useState} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleCheck} from '@fortawesome/free-solid-svg-icons';
-import asset from '../assets/json/1_asset_routing_request.json';
+import asset from '../assets/json/1_asset_routing_response.json';
 import policy from '../assets/json/2_policy_definition.json';
-import contractDefinition from '../assets/json/3_routing_request_contract_definition.json';
-import routingRequestFetchCatalog from '../assets/json/4_5_routing-request_catalog_fetch_response.json';
-import contract from '../assets/json/5_routing_request_contract_negotiation.json';
-import transfer from '../assets/json/7_start_routing_request_transfer.json';
+import contractDefinition from '../assets/json/3_routing_response_contract_definition.json';
+import routingRequestFetchCatalog from '../assets/json/4_5_routing-response_catalog-fetch_response.json';
+import contract from '../assets/json/5_routing_response_contract_negotiation.json';
+import transfer from '../assets/json/7_start_routing_response_transfer.json';
 import JsonView from "@uiw/react-json-view";
 
-function GaiaxAssetsRoutingRequest() {
+function GaiaxAssetsRoutingResponse() {
     const [currentTab, setTab] = useState(0);
 
     const checkIcon = <FontAwesomeIcon icon={faCircleCheck} className="w-3.5 h-3.5 mr-2"/>
@@ -27,7 +27,7 @@ function GaiaxAssetsRoutingRequest() {
                         onClick={() => (setTab(0))}
                         className="flex items-center">
                         {currentTab > 0 ? checkIcon : <span className="me-2">1</span>}
-                        Routing Request Asset
+                        Routing Response Asset
                     </span>
                 </li>
                 <li className={(currentTab == 1 ? stateLine + tabActive : stateLine + tabInactive)}>
@@ -103,4 +103,4 @@ function GaiaxAssetsRoutingRequest() {
 }
 
 
-export default GaiaxAssetsRoutingRequest;
+export default GaiaxAssetsRoutingResponse;
