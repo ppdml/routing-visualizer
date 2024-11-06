@@ -17,7 +17,7 @@ function GaiaxAssetsRoutingRequest() {
     const tabDefault = "flex items-center cursor-default ";
     const tabActive = tabDefault + " text-tuGreen";
     const tabInactive = tabDefault + " text-gaiaPurple";
-    const cardStyle = "inline-block p-6 bg-green-50 border border-gaiaPurple rounded-lg shadow";
+    const cardStyle = "inline-block p-6 bg-slate-50 border border-gaiaPurple rounded-lg shadow";
 
     return (
         <div className="content-center justify-center">

@@ -1,5 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Home from "./pages/Home.tsx";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Routing from "./pages/Routing.tsx";
 import GaiaxAssetsRoutingRequest from "./pages/GaiaxAssetsRoutingRequest.tsx";
 import NavBar from "./NavBar.tsx";
@@ -14,7 +13,7 @@ function App() {
             <NavBar/>
             <div className="m-10">
                 <Routes>
-                    <Route path="/" element={Home()}/>
+                    <Route path="/" element={<Navigate to="/routing"/>}/>
                     <Route path="/routing" element={Routing()}/>
                     <Route path="/gaiax-overview" element={GaiaxRoutingImage()}/>
                     <Route path="/gaiax-routing-request" element={GaiaxAssetsRoutingRequest()}/>
