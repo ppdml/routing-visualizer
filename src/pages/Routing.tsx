@@ -1,81 +1,41 @@
-import {MapContainer, TileLayer, useMap} from 'react-leaflet';
+import {GeoJSON, MapContainer, Marker, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import {useEffect, useState} from "react";
 import {v4 as uuid} from 'uuid'
 import RoutingRequestListItem from "../components/RoutingRequestListItem.tsx";
 import RoutingResponseListItem from "../components/RoutingResponseListItem.tsx";
+import 'leaflet-contextmenu';
+import 'leaflet-contextmenu/dist/leaflet.contextmenu.css';
+import L from 'leaflet';
 
 
 async function postRoutingRequest(startLat: number, startLong: number, endLat: number, endLong: number) {
     const body = {
-        "records": [
+        "requestId": uuid(),
+        "routeLocations": [
             {
-                "key": "routing-request",
-                "value": {
-                    "requestId": uuid(),
-                    "routeLocations": [
-                        {
-                            "latitude": startLat,
-                            "longitude": startLong,
-                            "waitingTime": 0
-                        },
-                        {
-                            "latitude": endLat,
-                            "longitude": endLong,
-                            "waitingTime": 0
-                        }
-                    ],
-                    "metadata": {
-                        "vehicleType": "CAR"
-                    }
-                }
+                "latitude": startLat,
+                "longitude": startLong,
+                "waitingTime": 0
+            },
+            {
+                "latitude": endLat,
+                "longitude": endLong,
+                "waitingTime": 0
             }
-        ]
+        ],
+        "metadata": {
+            "vehicleType": "CAR"
+        }
     }
-    const res = await fetch('http://kafka-rest.gaiax.cluster.tsachweh.de/topics/tu-routing-request', {
+    const res = await fetch('http://routing.gaiax.cs.tu-dortmund.de/routingRequest/', {
         mode: 'cors',
         method: 'POST',
         headers: {
-            'Content-Type': 'application/vnd.kafka.json.v2+json',
-            'Accept': 'application/vnd.kafka.v2+json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
         body: JSON.stringify(body)
-    })
-}
-
-
-async function createConsumer() {
-    return fetch('http://kafka-rest.gaiax.cluster.tsachweh.de/consumers/cg1', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/vnd.kafka.v2+json'
-        },
-        body: JSON.stringify({
-            "name": "ci1",
-            "format": "json",
-            "auto.offset.reset": "earliest"
-        })
-    })
-}
-
-async function subscribeConsumer() {
-    return fetch('http://kafka-rest.gaiax.cluster.tsachweh.de/consumers/cg1/instances/ci1/subscription', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/vnd.kafka.v2+json'
-        },
-        body: JSON.stringify({
-            "topics": ["tu-routing-request", "tu-routing-response"]
-        })
-    })
-}
-
-async function clearConsumer() {
-    return fetch('http://kafka-rest.gaiax.cluster.tsachweh.de/consumers/cg1/instances/ci1', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/vnd.kafka.v2+json'
-        }
     })
 }
 
@@ -83,69 +43,109 @@ async function clearConsumer() {
 function Routing() {
     const [routingRequests, setRoutingRequests] = useState([]);
     const [routingResponses, setRoutingResponses] = useState([]);
-    const [startCoord, setStartCoord] = useState([52.312755058201034, 8.006472181577625]);
-    const [endCoord, setEndCoord] = useState([52.312755058201034, 8.006472181577625]);
+    const [startCoord, setStartCoord] = useState(null);
+    const [endCoord, setEndCoord] = useState(null);
 
     const handleSendRoutingRequest = () => {
-        return postRoutingRequest(startCoord[0], startCoord[1], endCoord[0], endCoord[1]);
+        return postRoutingRequest(startCoord.lat, startCoord.lng, endCoord.lat, endCoord.lng);
     }
     useEffect(() => {
-        createConsumer().then(() => {
-            console.log('consumer created');
-            subscribeConsumer().then(() => console.log('subscribed'));
-        });
         const interval = setInterval(async () => {
-            await fetch(`http://kafka-rest.gaiax.cluster.tsachweh.de/consumers/cg1/instances/ci1/records`, {
+            await fetch(`http://routing.gaiax.cs.tu-dortmund.de/caching/requests`, {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/vnd.kafka.json.v2+json'
+                    'Accept': 'application/json'
                 }
             }).then((response) => response.json()).then((data) => {
-                for (const record of data) {
-                    if (record.topic === 'tu-routing-request') {
-                        setRoutingRequests(previousState => [record.value, ...previousState]);
-                        console.log(routingRequests);
-                    } else if (record.topic === 'tu-routing-response') {
-                        setRoutingResponses(previousState => [record.value, ...previousState]);
-                    }
+                setRoutingRequests(data);
+            });
+            await fetch(`http://routing.gaiax.cs.tu-dortmund.de/caching/responses`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
                 }
+            }).then((response) => response.json()).then((data) => {
+                setRoutingResponses(data);
             });
         }, 2000);
         return () => {
-            clearConsumer().then(() => console.log("subscription client cleared"));
-
             clearInterval(interval);
         };
     }, [routingRequests, routingResponses]);
 
+    const [route, setRoute] = useState(null);
+
+    function handleShowMap(geoJson) {
+        setRoute({...geoJson});
+    }
 
     return (
-        <div className="flex h-[calc(100vh-10rem)]">
+        <div className="flex">
             <div className="w-96 text-center m-2">
-                <h1>Routing Requests</h1>
-                {routingRequests.map((request, index) => (
-                    <RoutingRequestListItem key={index} request={request} isEven={index % 2 == 0}/>
-                ))}
+                <h1 className="mb-2">Routing Requests</h1>
+                <div className="h-[calc(100vh-15rem)] overflow-y-scroll">
+                    {routingRequests.map((request, index) => (
+                        <RoutingRequestListItem key={index} request={request} isEven={index % 2 == 0}/>
+                    ))}
+                </div>
             </div>
 
             <div className="w-96 text-center m-2">
-                <h1>Routing Responses</h1>
-                {routingResponses.map((response, index) => (
-                    <RoutingResponseListItem key={index} response={response} isEven={index % 2 == 0}/>
-                ))}
+                <h1 className="mb-2">Routing Responses</h1>
+                <div className="h-[calc(100vh-15rem)] overflow-y-scroll">
+                    {routingResponses.map((response, index) => (
+                        <RoutingResponseListItem key={index} response={response} isEven={index % 2 == 0}
+                                                 handleMap={handleShowMap}/>
+                    ))}
+                </div>
             </div>
             <div className="relative w-full h-[calc(100vh-10rem)] text-center">
-                <MapContainer center={[52.312755058201034, 8.006472181577625]} zoom={13} scrollWheelZoom={false}
+                <MapContainer center={[52.312755058201034, 8.006472181577625]} zoom={16} scrollWheelZoom={true}
+                              contextmenu={true}
+                              contextmenuItems={[
+                                  {
+                                      text: 'Routing Start',
+                                      callback: (event) => {
+                                          setStartCoord(event.latlng);
+                                      }
+                                  },
+                                  {
+                                      text: 'Routing End',
+                                      callback: (event) => {
+                                          setEndCoord(event.latlng);
+                                      }
+                                  }
+                              ]}
                               style={{position: "absolute", top: 0, bottom: 0, left: 0, right: 0, zIndex: 0}}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
+
+                    {route && <GeoJSON data={route} key={route.requestId}/>}
+
+                    {startCoord && <Marker position={startCoord} draggable={true} icon={new L.Icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    })}/>}
+                    {endCoord && <Marker position={endCoord} draggable={true} icon={new L.Icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    })}/>}
                 </MapContainer>
 
-                <button onClick={handleSendRoutingRequest}
-                        className="absolute top-1 right-1 m-2 rounded-lg bg-gaiaPurple p-2 text-white shadow shadow-slate-800 hover:bg-slate-100 hover:text-black hover:border-2 hover:border-gaiaPurple">Request Route
-                </button>
+                {startCoord && endCoord && <button onClick={handleSendRoutingRequest}
+                                                   className="absolute top-1 right-1 m-2 rounded-lg bg-gaiaPurple p-2 text-white shadow shadow-slate-800 hover:bg-slate-100 hover:text-black hover:border-2 hover:border-gaiaPurple">Request
+                    Route
+                </button>}
             </div>
 
         </div>

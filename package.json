@@ -22,6 +22,7 @@
     "framer-motion": "^11.11.11",
     "kafkajs": "^2.2.4",
     "leaflet": "^1.9.4",
+    "leaflet-contextmenu": "^1.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",

@@ -5,6 +5,7 @@ import JsonView from "@uiw/react-json-view";
 function RoutingResponseListItem(props: {
     response,
     isEven: boolean;
+    handleMap: (geoJson: unknown) => void;
 }) {
     const base = "m-1 p-1 bg-slate-100 rounded-lg";
     const even = base + " bg-slate-50";
@@ -16,7 +17,7 @@ function RoutingResponseListItem(props: {
         <div className={props.isEven ? base : even}>
             <h3 className="font-medium inline-block mb-1">{props.response.requestId}</h3>
             <div className="flex justify-around">
-                <button
+                <button onClick={() => props.handleMap(props.response)}
                     className="rounded-full border-gaiaPurple border-2 p-1 hover:shadow hover:shadow-gaiaPurple">Map
                 </button>
 
@@ -28,7 +29,7 @@ function RoutingResponseListItem(props: {
                         <div
                             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                         >
-                            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                            <div className="relative w-auto my-6 mx-auto max-w-3xl max-h-[calc(100vh-10rem)]">
                                 {/*content*/}
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     {/*header*/}
