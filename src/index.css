@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.react-flow__arrowhead > polyline {
+    stroke: transparent!important;
+    stroke-width: 0!important;
+}

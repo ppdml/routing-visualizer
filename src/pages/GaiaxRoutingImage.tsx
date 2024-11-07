@@ -184,7 +184,7 @@ const initialNodes: Node[] = [
 ];
 
 const edgeStyle = {strokeWidth: 4, stroke: '#B908FF'};
-const markerEnd = {type: MarkerType.ArrowClosed, color: '#B908FF', markerUnits: 'strokeWidth'};
+const markerEnd = {type: MarkerType.ArrowClosed, color: '#B908FF', markerUnits: 'strokeWidth', style: {'stroke': 'transparent'}};
 
 const dataFlowEdges: Edge[] = [
     {
@@ -199,11 +199,22 @@ const dataFlowEdges: Edge[] = [
         pathOptions: {curvature: 1}
     },
     {
-        id: 'krone-kafka-dfki-iwt',
+        id: 'krone-kafka-dfki-edc',
         source: 'krone-kafka',
         sourceHandle: 'sourceBottom',
+        target: 'dfki-edc',
+        targetHandle: 'targetTop',
+        animated: true,
+        markerEnd: markerEnd,
+        style: edgeStyle,
+        pathOptions: {curvature: 1.1}
+    },
+    {
+        id: 'dfki-edc-dfki-iwt',
+        source: 'dfki-edc',
+        sourceHandle: 'sourceBottom',
         target: 'dfki-iwt',
-        targetHandle: 'targetLeft',
+        targetHandle: 'targetTop',
         animated: true,
         markerEnd: markerEnd,
         style: edgeStyle,
@@ -221,15 +232,26 @@ const dataFlowEdges: Edge[] = [
         pathOptions: {curvature: 0.7}
     },
     {
-        id: 'dfki-kafka-tu-gateway',
+        id: 'dfki-kafka-tu-edc',
         source: 'dfki-kafka',
+        sourceHandle: 'sourceTop',
+        target: 'tu-edc',
+        targetHandle: 'targetBottom',
+        animated: true,
+        markerEnd: markerEnd,
+        style: edgeStyle,
+        pathOptions: {curvature: 1.1}
+    },
+    {
+        id: 'tu-edc-tu-gateway',
+        source: 'tu-edc',
         sourceHandle: 'sourceTop',
         target: 'tu-gateway',
         targetHandle: 'targetLeft',
         animated: true,
         markerEnd: markerEnd,
         style: edgeStyle,
-        pathOptions: {curvature: 1.1}
+        pathOptions: {curvature: 0.7}
     },
     {
         id: 'tu-gateway-eta-service',
@@ -265,10 +287,10 @@ const dataFlowEdges: Edge[] = [
         pathOptions: {curvature: 0.7}
     },
     {
-        id: 'tu-kafka-dfki-iwt',
+        id: 'tu-kafka-dfki-edc',
         source: 'tu-kafka',
         sourceHandle: 'sourceBottom',
-        target: 'dfki-iwt',
+        target: 'dfki-edc',
         targetHandle: 'targetTop',
         animated: true,
         markerEnd: markerEnd,

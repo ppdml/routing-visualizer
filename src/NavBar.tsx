@@ -24,7 +24,7 @@ function NavBar() {
 
                     <PopoverPanel
                         transition
-                        className="absolute left-10 z-100 mt-2 flex w-screen max-w-max -translate-x-1/2 px-4 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+                        className="absolute left-10 z-50 mt-2 flex w-screen max-w-max -translate-x-1/2 px-4 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                     >
                         <div className="overflow-hidden rounded-xl bg-slate-100 text-sm/6 shadow-lg ring-1 ring-gray-900/5">
                             <div className="p-4">
