@@ -79,6 +79,16 @@ function Routing() {
         setRoute({...geoJson});
     }
 
+    function containsData(): boolean {
+        return startCoord != null || endCoord != null || route != null;
+    }
+
+    function clearMapData() {
+        setStartCoord(null);
+        setEndCoord(null);
+        setRoute(null);
+    }
+
     return (
         <div className="flex">
             <div className="w-96 text-center m-2">
@@ -122,7 +132,7 @@ function Routing() {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
 
-                    {route && <GeoJSON data={route} key={route.requestId}/>}
+                    {route && <GeoJSON data={route} key={route.requestId} pathOptions={{ color: '#B908FF' }}/>}
 
                     {startCoord && <Marker position={startCoord} draggable={true} icon={new L.Icon({
                         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -142,10 +152,19 @@ function Routing() {
                     })}/>}
                 </MapContainer>
 
-                {startCoord && endCoord && <button onClick={handleSendRoutingRequest}
-                                                   className="absolute top-1 right-1 m-2 rounded-lg bg-gaiaPurple p-2 text-white shadow shadow-slate-800 hover:bg-slate-100 hover:text-black hover:border-2 hover:border-gaiaPurple">Request
-                    Route
-                </button>}
+                <div className="absolute top-1 right-1">
+                    {startCoord && endCoord && <button onClick={handleSendRoutingRequest}
+                                                       className="m-2 rounded-lg bg-gaiaPurple p-2 text-white shadow shadow-slate-800 hover:bg-slate-100 hover:text-black hover:border-2 hover:border-gaiaPurple">Request
+                        Route
+                    </button>}
+                    {containsData() && <button
+                        className="m-2 rounded-lg bg-gaiaPurple p-2 text-white shadow shadow-slate-800 hover:bg-slate-100 hover:text-black hover:border-2 hover:border-gaiaPurple"
+                        onClick={clearMapData}>
+                        Clear
+                    </button>
+                    }
+                </div>
+
             </div>
 
         </div>
